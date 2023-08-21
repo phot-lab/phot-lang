@@ -1,0 +1,6 @@
+type Point = list[number; 2]
+
+with <src: functor, dst: functor>
+inner static func set_link(path: list[Point]) {
+    # inner func
+}
