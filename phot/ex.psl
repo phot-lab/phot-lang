@@ -4,3 +4,18 @@ with <src: functor, dst: functor>
 inner static func set_link(path: list[Point]) {
     # inner func
 }
+
+with <src: functor, dst: functor>
+inner static func set_port(path: list[Point]) {
+    # inner func
+}
+
+with <src: functor, dst: functor>
+inner static func set_bias(path: list[Point]) {
+    # inner func
+}
+
+with <src: functor, dst: functor>
+inner static func set_rect(path: list[Point]) {
+    # inner func
+}

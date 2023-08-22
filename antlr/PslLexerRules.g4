@@ -2,11 +2,13 @@ lexer grammar PslLexerRules;
 // 纯词法的语法声明
 // PSL的词法规则定义，它定义了一些词法规则来识别PSL源码中的不同类型的词法单元。
 
-RET : 'ret';
 LET : 'let';
 USE : 'use';
 FUNC : 'func';
 TYPE : 'type';
+ENUM : 'enum';
+WITH : 'with';
+RETURN : 'return';
 
 SKIP_
  : ( BLANK | LIN_CMT1 | LIN_CMT2 | BLK_CMT | LINE_MID ) -> skip
@@ -54,12 +56,6 @@ STRING
  | '\'' ~[']* '\''
  ;
 
-// 数字定义 ： 整数、浮点数
-NUMBER
- : INTEGER
- | FLOAT_NUMBER
- ;
-
 // 整数定义 ： 十进制整数、八进制整数、十六进制整数、二进制整数，暂时只定义十进制整数
 INTEGER
  : DECIMAL_INTEGER
@@ -69,7 +65,7 @@ INTEGER
  ;
 
 // 浮点数定义 ： 小数或指数形式的浮点数
-FLOAT_NUMBER
+REAL
  : POINT_FLOAT
  | EXPONENT_FLOAT
  ;
