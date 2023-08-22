@@ -1,1 +1,1 @@
-java -jar antlr-4.13.0-complete.jar -Dlanguage=Python3 Psl.g4 -visitor -o gen
+java -jar antlr-4.13.0-complete.jar -Dlanguage=Python3 Psl.g4 -no-listener -visitor -o gen
