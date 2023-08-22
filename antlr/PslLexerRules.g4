@@ -11,11 +11,7 @@ WITH : 'with';
 RETURN : 'return';
 
 SKIP_
- : ( BLANK | LIN_CMT1 | LIN_CMT2 | BLK_CMT | LINE_MID ) -> skip
- ;
-
-fragment LINE_MID
- : '\\' ('\r'? '\n')
+ : ( BLANK | LIN_CMT | BLK_CMT | LINE_MID ) -> skip
  ;
 
 LINE_END
@@ -26,21 +22,23 @@ fragment BLANK
  : [ \t\u000C]+
  ;
 
-fragment LIN_CMT1
+fragment LIN_CMT
  : '//' ~[\r\n]*
- ;
-
-fragment LIN_CMT2
- : '#' ~[\r\n\f]*
+ | '# ' ~[\r\n\f]*
  ;
 
 fragment BLK_CMT
  : '/*' .*? '*/'
+ | '```' .*? '```'
+ ;
+
+fragment LINE_MID
+ : '\\' ('\r'? '\n')
  ;
 
 MULTI_STR
- : '\'\'\'' ~[']* '\'\'\''
- | '"""' ~["]* '"""'
+ : '\'\'\'' .*? '\'\'\''
+ | '"""' .*? '"""'
  ;
 
 IDENTIFIER
@@ -48,12 +46,12 @@ IDENTIFIER
  ;
 
 UNIT
- : '`' ~('`')* '`'
+ : '`' ('\\`' | '\\\\' | .)*? '`'
  ;
 
 STRING
- : '"' ~["]* '"'
- | '\'' ~[']* '\''
+ : '"' ('\\"' | '\\\\' | .)*? '"'
+ | '\'' ('\\\'' | '\\\\' | .)*? '\''
  ;
 
 // 整数定义 ： 十进制整数、八进制整数、十六进制整数、二进制整数，暂时只定义十进制整数
