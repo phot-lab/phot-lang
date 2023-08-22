@@ -111,6 +111,6 @@ vectorType : 'array' ('<' scalarType '>')? ('[' INTEGER ']')?
 structType : 'list' ('<' nullableType (',' nullableType)* '>')? ('[' INTEGER ']')?
            | 'dict' ('<' type ',' nullableType '>')?
            ;
-nullableType : type ('?')? ;
+nullableType : type '?'? ;
 
 identRef : IDENTIFIER ;
