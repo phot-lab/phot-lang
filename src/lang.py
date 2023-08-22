@@ -6,8 +6,8 @@ import time
 
 
 def timeTest():
-    # src = FileStream("D:\\科研项目\\PhotLab\\phot-lang\\demo\\prjs\\roft\\roft.psl")
-    src = FileStream("D:\\科研项目\\PhotLab\\phot-lang\\demo\\feat\\anno.psl")
+    src = FileStream("D:\\科研项目\\PhotLab\\phot-lang\\demo\\prjs\\roft\\roft.psl")
+    # src = FileStream("D:\\科研项目\\PhotLab\\phot-lang\\demo\\feat\\anno.psl")
     # src = FileStream("D:\\科研项目\\PhotLab\\phot-lang\\demo\\feat\\varies.psl")
     tree = parseSource(src)
 
