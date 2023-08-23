@@ -15,7 +15,7 @@ inner static func set_bias(path: list[Point]) {
     # inner func
 }
 
-with <src: functor, dst: functor>
-inner static func set_rect(path: list[Point]) {
+with <fn: functor>
+inner static func set_rect(path: list[number; 4]) {
     # inner func
 }

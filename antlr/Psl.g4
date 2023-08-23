@@ -32,7 +32,7 @@ biasAnno : '(' INTEGER ',' INTEGER ')' ;
 sizeAnno : '[' INTEGER ',' INTEGER ']' ;
 annotation : '@' (identRef | dictPack | biasAnno | sizeAnno) ;
 annotations : (annotation LINE_END)* ;
-modifiers : ('inner' | 'sync' | 'scoped' | 'static' | 'atomic')* ;
+modifiers : (INNER | SYNC | SCOPED | STATIC | ATOMIC)* ;
 withList : '<' sepMark? argument (',' sepMark? argument)* sepMark? '>' ;
 withDecl : '<' sepMark? keyValDecl (',' sepMark? keyValDecl)* sepMark? '>' ;
 paramDef : '(' sepMark? (keyValDecl (',' sepMark? keyValDecl)*)? sepMark? ')' ;
@@ -44,14 +44,14 @@ typePack : '{' sepMark? (keyValDecl (',' sepMark? keyValDecl)*)? sepMark? '}' ;
 keyValDecl : identRef (annotation)? ':' nullableType ('=' entityExpr)? ;
 keyValExpr : identRef '=' entityExpr ;
 
-entityRef : identRef ('[' (INTEGER | identRef) ']')* ;
+entityRef : identRef (('[' (INTEGER | identRef) ']')* | '.' (INTEGER | identRef)) ;
 listUnpack : '[' sepMark? (identRef (',' sepMark? identRef)*)? sepMark? ']' ;
 dictUnpack : '{' sepMark? (identRef (',' sepMark? identRef)*)? sepMark? '}' ;
 dictPack : '{' sepMark? (keyValExpr (',' sepMark? keyValExpr)*)? sepMark? '}' ;
 listPack : '[' sepMark? (entityExpr (',' sepMark? entityExpr)*)? sepMark? ']' ;
 stmtPack : '{' stmtList? sepMark? '}' ;
 
-entityExpr : entityChain ('as' type)? ;
+entityExpr : entityChain (AS type)? ;
 entityChain : chainUnit+ ;
 chainUnit : entity
           | linkCall
@@ -73,43 +73,39 @@ argsList : '(' sepMark? (argument (',' sepMark? argument)*)? sepMark? ')' ;
 literal : value
         | STRING
         | MULTI_STR
-        | formatStr
-        | 'null'
-        | 'true'
-        | 'false'
+        | FSTRING
+        | NULL
+        | TRUE
+        | FALSE
         ;
-value : (INTEGER | REAL | complex) UNIT? ;
-formatStr : 'f' STRING ;
-complex : INTEGER ('+' | '-') INTEGER 'i'
-        | REAL ('+' | '-') REAL 'i'
-        ;
+value : (INTEGER | REAL | COMPLEX) UNIT? ;
 
 
 type : innerType
      | identRef
-     | 'any'
+     | ANY_TYPE
      ;
 
-innerType : 'number'
-          | 'string'
-          | 'bool'
-          | 'functor'
-          | 'block'
+innerType : NUMBER_TYPE
+          | STRING_TYPE
+          | BOOLEAN_TYPE
+          | FUNCTOR_TYPE
+          | BLOCK_TYPE
           | numberType
           | structType
           ;
 numberType : scalarType
            | vectorType
            ;
-scalarType : 'int'
-           | 'real'
-           | 'complex'
+scalarType : INTEGER_TYPE
+           | REAL_TYPE
+           | COMPLEX_TYPE
            ;
-vectorType : 'array' ('<' scalarType '>')? ('[' INTEGER ']')?
-           | 'matrix' ('<' scalarType '>')? ('[' INTEGER']')*
+vectorType : ARRAY_TYPE ('<' scalarType '>')? ('[' INTEGER ']')?
+           | MATRIX_TYPE ('<' scalarType '>')? ('[' INTEGER']')*
               ;
-structType : 'list' ('<' nullableType (',' nullableType)* '>')? ('[' INTEGER ']')?
-           | 'dict' ('<' type ',' nullableType '>')?
+structType : LIST_TYPE ('<' nullableType (',' nullableType)* '>')? ('[' INTEGER ']')?
+           | DICT_TYPE ('<' type ',' nullableType '>')?
            ;
 nullableType : type '?'? ;
 

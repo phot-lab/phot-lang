@@ -2,13 +2,41 @@ lexer grammar PslLexerRules;
 // 纯词法的语法声明
 // PSL的词法规则定义，它定义了一些词法规则来识别PSL源码中的不同类型的词法单元。
 
-LET : 'let';
-USE : 'use';
-FUNC : 'func';
-TYPE : 'type';
-ENUM : 'enum';
-WITH : 'with';
-RETURN : 'return';
+AS          : 'as';
+LET         : 'let';
+USE         : 'use';
+FUNC        : 'func';
+TYPE        : 'type';
+ENUM        : 'enum';
+WITH        : 'with';
+RETURN      : 'return';
+
+INNER       : 'inner';
+SYNC        : 'sync';
+SCOPED      : 'scoped';
+STATIC      : 'static';
+ATOMIC      : 'atomic';
+
+NULL        : 'null';
+TRUE        : 'true';
+FALSE       : 'false';
+
+ANY_TYPE    : 'any';
+
+NUMBER_TYPE     : 'number';
+STRING_TYPE     : 'string';
+BOOLEAN_TYPE    : 'bool';
+FUNCTOR_TYPE    : 'functor';
+BLOCK_TYPE      : 'block';
+
+INTEGER_TYPE    : 'int';
+REAL_TYPE       : 'real';
+COMPLEX_TYPE    : 'complex';
+
+ARRAY_TYPE      : 'array';
+MATRIX_TYPE     : 'matrix';
+LIST_TYPE       : 'list';
+DICT_TYPE       : 'dict';
 
 SKIP_
  : ( BLANK | LIN_CMT | BLK_CMT | LINE_MID ) -> skip
@@ -54,6 +82,15 @@ STRING
  | '\'' ('\\\'' | '\\\\' | .)*? '\''
  ;
 
+FSTRING
+ : 'f' STRING
+ ;
+
+COMPLEX
+ : INTEGER ('+' | '-') INTEGER 'i'
+ | REAL ('+' | '-') REAL 'i'
+ ;
+
 // 整数定义 ： 十进制整数、八进制整数、十六进制整数、二进制整数，暂时只定义十进制整数
 INTEGER
  : DECIMAL_INTEGER
@@ -76,13 +113,12 @@ DECIMAL_INTEGER
 
 // 片段规则，小数定义：它可以是一个整数部分（可选）后跟一个小数点和一个或多个数字，或者只有小数点
 fragment POINT_FLOAT
- : INT_PART? FRACTION
- | INT_PART '.'
+ : INT_PART (FRACTION | '.')
  ;
 
 // 指数形式的浮点数定义 ： 由整数部分或者小数部分后面跟随一个指数部分组成
 fragment EXPONENT_FLOAT
- : ( INT_PART | POINT_FLOAT ) EXPONENT
+ : (INT_PART | POINT_FLOAT) EXPONENT
  ;
 
 // 片段规则，非零数字定义 ： 1-9
