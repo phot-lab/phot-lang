@@ -23,7 +23,7 @@ enumDef : ENUM identRef '='? dictUnpack stmtEnd ;
 retStmt : RETURN entityExpr? stmtEnd ;
 exprStmt : annotations entityExpr stmtEnd ;
 
-carrier : entityRef
+carrier : identRef
         | listUnpack
         | dictUnpack
         ;
@@ -36,8 +36,10 @@ modifiers : (INNER | SYNC | SCOPED | STATIC | ATOMIC)* ;
 withList : '<' sepMark? argument (',' sepMark? argument)* sepMark? '>' ;
 withDecl : '<' sepMark? keyValDecl (',' sepMark? keyValDecl)* sepMark? '>' ;
 paramDef : '(' sepMark? (keyValDecl (',' sepMark? keyValDecl)*)? sepMark? ')' ;
-argument : entityExpr
+argsList : '(' sepMark? (argument (',' sepMark? argument)*)? sepMark? ')' ;
+argument : entity
          | keyValExpr
+         | entityExpr
          ;
 
 typePack : '{' sepMark? (keyValDecl (',' sepMark? keyValDecl)*)? sepMark? '}' ;
@@ -51,23 +53,21 @@ dictPack : '{' sepMark? (keyValExpr (',' sepMark? keyValExpr)*)? sepMark? '}' ;
 listPack : '[' sepMark? (entityExpr (',' sepMark? entityExpr)*)? sepMark? ']' ;
 stmtPack : '{' stmtList? sepMark? '}' ;
 
-entityExpr : entityChain (AS type)? ;
-entityChain : chainUnit+ ;
-chainUnit : entity
-          | linkCall
-          ;
-entity : (entityRef | functorRef | literal | listPack | dictPack) annotation? ;
-linkCall : linkCall '->' entity
-          | functorRef argsList
-          | entity
-          ;
+entityExpr : (entity | linkCall | entityChain) (AS type)? ;
+entityChain : (entity | linkCall)+ ;
+entity : (identRef | entityRef | functorRef | literal | listPack | dictPack) annotation? ;
+linkCall : entity '->' functorRef
+         | entity '->' entity
+         | linkCall '->' functorRef
+         | linkCall '->' entity
+         | functorRef argsList
+         | functorRef
+         | entity
+         ;
 functorRef: identRef (withList)? ;
 
 stmtEnd : sepMark | ';' | EOF ;
 sepMark : (LINE_END)+ ;
-
-
-argsList : '(' sepMark? (argument (',' sepMark? argument)*)? sepMark? ')' ;
 
 
 literal : value
