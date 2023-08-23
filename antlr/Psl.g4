@@ -44,7 +44,7 @@ typePack : '{' sepMark? (keyValDecl (',' sepMark? keyValDecl)*)? sepMark? '}' ;
 keyValDecl : identRef (annotation)? ':' nullableType ('=' entityExpr)? ;
 keyValExpr : identRef '=' entityExpr ;
 
-entityRef : identRef (('[' (INTEGER | identRef) ']')* | '.' (INTEGER | identRef)) ;
+entityRef : identRef ('.' (INTEGER | identRef))* ;
 listUnpack : '[' sepMark? (identRef (',' sepMark? identRef)*)? sepMark? ']' ;
 dictUnpack : '{' sepMark? (identRef (',' sepMark? identRef)*)? sepMark? '}' ;
 dictPack : '{' sepMark? (keyValExpr (',' sepMark? keyValExpr)*)? sepMark? '}' ;
@@ -78,7 +78,7 @@ literal : value
         | TRUE
         | FALSE
         ;
-value : (INTEGER | REAL | COMPLEX) UNIT? ;
+value : (INTEGER | REAL | complex) UNIT? ;
 
 
 type : innerType
@@ -100,6 +100,9 @@ numberType : scalarType
 scalarType : INTEGER_TYPE
            | REAL_TYPE
            | COMPLEX_TYPE
+           ;
+complex    : INTEGER ('+' | '-') INTEGER 'i'
+           | REAL ('+' | '-') REAL 'i'
            ;
 vectorType : ARRAY_TYPE ('<' scalarType '>')? ('[' INTEGER ']')?
            | MATRIX_TYPE ('<' scalarType '>')? ('[' INTEGER']')*
