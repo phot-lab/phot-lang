@@ -64,7 +64,7 @@ linkCall : linkCall '->' (identRef | functorRef | entity | normCall)
          ;
 
 stmtEnd : sepMark | ';' | EOF ;
-sepMark : (LINE_END)+ ;
+sepMark : LINE_END+ ;
 
 
 literal : value
