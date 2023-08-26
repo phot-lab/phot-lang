@@ -16,7 +16,7 @@ stmt : letStmt
 
 letStmt : LET carrier (':' type)? '='? entityExpr stmtEnd ;
 useStmt : USE carrier '='? entityExpr stmtEnd ;
-withDef : WITH (identRef | withDecl) LINE_END? ;
+withDef : WITH (entityRef | withDecl) LINE_END? ;
 funcDef : annotations withDef? modifiers FUNC identRef paramDef (':' type)? '='? LINE_END? stmtPack stmtEnd ;
 typeDef : TYPE identRef '='? (type | typePack) stmtEnd ;
 enumDef : ENUM identRef '='? dictUnpack stmtEnd ;
@@ -37,34 +37,31 @@ withList : '<' sepMark? argument (',' sepMark? argument)* sepMark? '>' ;
 withDecl : '<' sepMark? keyValDecl (',' sepMark? keyValDecl)* sepMark? '>' ;
 paramDef : '(' sepMark? (keyValDecl (',' sepMark? keyValDecl)*)? sepMark? ')' ;
 argsList : '(' sepMark? (argument (',' sepMark? argument)*)? sepMark? ')' ;
-argument : entity
-         | keyValExpr
-         | entityExpr
+argument : identRef | entity
+         | keyValExpr | entityExpr
          ;
 
 typePack : '{' sepMark? (keyValDecl (',' sepMark? keyValDecl)*)? sepMark? '}' ;
 keyValDecl : identRef (annotation)? ':' nullableType ('=' entityExpr)? ;
 keyValExpr : identRef '=' entityExpr ;
 
-entityRef : identRef ('.' (INTEGER | identRef))* ;
+entityRef : identRef ('.' (INTEGER | identRef))* annotation? ;
+functorRef: identRef (withList)? annotation? ;
 listUnpack : '[' sepMark? (identRef (',' sepMark? identRef)*)? sepMark? ']' ;
 dictUnpack : '{' sepMark? (identRef (',' sepMark? identRef)*)? sepMark? '}' ;
 dictPack : '{' sepMark? (keyValExpr (',' sepMark? keyValExpr)*)? sepMark? '}' ;
 listPack : '[' sepMark? (entityExpr (',' sepMark? entityExpr)*)? sepMark? ']' ;
 stmtPack : '{' stmtList? sepMark? '}' ;
 
-entityExpr : (entity | linkCall | entityChain) (AS type)? ;
-entityChain : (entity | linkCall)+ ;
-entity : (identRef | entityRef | functorRef | literal | listPack | dictPack) annotation? ;
-linkCall : entity '->' functorRef
-         | entity '->' entity
-         | linkCall '->' functorRef
-         | linkCall '->' entity
-         | functorRef argsList
-         | functorRef
-         | entity
+entityExpr : (entity | normCall | linkCall | entityChain) (AS type)? ;
+entityChain : (identRef | entity | linkCall)+ ;
+entity : ((identRef | literal | listPack | dictPack) annotation?) | entityRef | functorRef ;
+normCall : functorRef argsList ;
+linkCall : linkCall '->' (identRef | functorRef | entity | normCall)
+         | (identRef | entityRef | entity | functorRef | normCall)
+           '->' (identRef | functorRef | entity | normCall)
+         | identRef | entityRef | entity | functorRef | normCall
          ;
-functorRef: identRef (withList)? ;
 
 stmtEnd : sepMark | ';' | EOF ;
 sepMark : (LINE_END)+ ;

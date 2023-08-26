@@ -10,7 +10,10 @@ scoped func PowerControlEl(input : ElSignal) \
     "Power control"@(6, 0)
 }
 
-with <loader: functor = psl>
+with <
+    loader: functor = psl,
+    loader: functor = psl
+>
 inner sync static func load(path: string): any
 {
     # inner func
