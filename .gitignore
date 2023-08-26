@@ -163,3 +163,4 @@ cython_debug/
 antlr/.antlr
 result.json
 CMakeUserPresets.json
+cmake-build-debug/
