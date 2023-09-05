@@ -12,6 +12,7 @@ WITH        : 'with';
 RETURN      : 'return';
 
 INNER       : 'inner';
+OUTER       : 'outer';
 SYNC        : 'sync';
 SCOPED      : 'scoped';
 STATIC      : 'static';

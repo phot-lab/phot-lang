@@ -1,12 +1,29 @@
-/*
-* This PSL module will be imported by interpreter automatically,
-* and can be accessed anywhere in any PSL script.
-*/
+/**
+ * Copyright (c) 2022 Beijing Jiaotong University
+ * PhotLab is licensed under [Open Source License].
+ * You can use this software according to the terms and conditions of the [Open Source License].
+ * You may obtain a copy of [Open Source License] at: [https://open.source.license/]
+ *
+ * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
+ * EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
+ * MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+ *
+ * See the [Open Source License] for more details.
+ *
+ * Author: Zhenjie Wei
+ * Created: Sep. 01, 2023
+ * Supported by: National Key Research and Development Program of China
+ */
+
+/**
+ * This PSL module will be imported by interpreter automatically,
+ * and can be accessed anywhere in any PSL script.
+ */
 
 # psl, json, phtc, xml, toml
 
 with <loader: functor = psl>
-inner sync static func load(path: string): any {
+inner sync static func load(path: string) -> any {
     # inner func
 }
 
@@ -24,5 +41,29 @@ inner static func print(data: any) {
 
 with <diagram: functor = eye>
 inner static func analyze(data: any) {
+    # inner func
+}
+
+inner static func help() {
+    # inner func
+}
+
+inner static func version() {
+    # inner func
+}
+
+inner static func about() {
+    # inner func
+}
+
+inner static func exit() {
+    # inner func
+}
+
+inner static func map() {
+    # inner func
+}
+
+inner static func reduce() {
     # inner func
 }

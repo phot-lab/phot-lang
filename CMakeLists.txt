@@ -9,7 +9,7 @@ if(MSVC)
 	set(CMAKE_CXX_FLAGS /source-charset:utf-8)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 	# 4003:宏定义参数不足 4005:宏重定义 4819:文件名中有非ASCII字符
-    add_compile_options(/wd4003 /wd4005 /wd4819)
+    add_compile_options(/wd4003 /wd4005 /wd4819 /O2)
 endif()
 
 file(GLOB_RECURSE SRC_FILES

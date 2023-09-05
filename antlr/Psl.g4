@@ -32,7 +32,7 @@ biasAnno : '(' INTEGER ',' INTEGER ')' ;
 sizeAnno : '[' INTEGER ',' INTEGER ']' ;
 annotation : '@' (identRef | dictPack | biasAnno | sizeAnno) ;
 annotations : (annotation LINE_END)* ;
-modifiers : (INNER | SYNC | SCOPED | STATIC | ATOMIC)* ;
+modifiers : (INNER | OUTER | SYNC | SCOPED | STATIC | ATOMIC)* ;
 withList : '<' sepMark? argument (',' sepMark? argument)* sepMark? '>' ;
 withDecl : '<' sepMark? keyValDecl (',' sepMark? keyValDecl)* sepMark? '>' ;
 paramDef : '(' sepMark? (keyValDecl (',' sepMark? keyValDecl)*)? sepMark? ')' ;
